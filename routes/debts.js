@@ -134,14 +134,14 @@ router.get("/debtor/:id_user_debtor", async (req, res) => {
 // Update debt
 router.patch("/:id_debt", async (req, res) => {
     const { id_debt } = req.params
-    const { detail, amount, status, currency, enabled, deleted } = req.body
+    const { id_user_creditor, id_user_debtor, date_debt, detail, amount, dolar_google, status, date_due, alert_enabled, alerted, currency, enabled, deleted } = req.body
 
     try {
         // Validate the ID first
         if(!mongoose.Types.ObjectId.isValid(id_debt)) {
             return res.status(400).json({ error: "Invalid debt ID" });
         }
-        const updateData = { detail, amount, status, currency, enabled, deleted }
+        const updateData = { id_user_creditor, id_user_debtor, date_debt, detail, amount, dolar_google, status, date_due, alert_enabled, alerted, currency, enabled, deleted }
 
         // Find the debt by ID
         const debt = await Debt.findOneAndUpdate(

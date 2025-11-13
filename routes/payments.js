@@ -75,7 +75,7 @@ router.get("/debt/:id_debt", async (req, res) => {
 // Update payment
 router.patch("/:id_payment", async (req, res) => {
     const { id_payment } = req.params
-    const { amount, dolar_google, enabled, deleted } = req.body
+    const { id_debt, amount, date_payment, dolar_google, enabled, deleted } = req.body
     try {
         // Validate the ID first
         if(!mongoose.Types.ObjectId.isValid(id_payment)) {
@@ -84,7 +84,7 @@ router.patch("/:id_payment", async (req, res) => {
         if (amount && typeof req.body.amount !== "number") {
             return res.status(400).json({ error: "Amount must be a number." });
         }
-        const updateData = { amount, dolar_google, enabled, deleted }
+        const updateData = { id_debt, amount, date_payment, dolar_google, enabled, deleted }
         
         // Find the user by ID
         const payment = await Payment.findOneAndUpdate(

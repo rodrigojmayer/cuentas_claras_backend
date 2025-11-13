@@ -9,6 +9,8 @@ const debtSchema = new mongoose.Schema({
     dolar_google: Number,
     status: { type: String, enum: ["open", "closed", "overdue"], default: "open" },
     date_due: Date,
+    alert_enabled: { type: Boolean, default: true },
+    alerted: { type: Boolean, default: false },
     currency: { type: String, default: "ARS" },
     enabled: { type: Boolean, default: true },
     deleted: { type: Boolean, default: false },

@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 app.use(cors({
   origin: process.env.NEXT_FRONTEND_URL, // your Next.js frontend
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   credentials: true, // if you use cookies or auth
 }));
 app.use(express.json());
