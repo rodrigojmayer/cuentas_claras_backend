@@ -54,7 +54,7 @@ router.post("/find-by-email", async (req, res) => {
     try {
         // Find the user by email
         const filter = { email };
-        const user = await User.find(filter);
+        const user = await User.findOne(filter);
 
         // Handle not found case
         if (!user) {
