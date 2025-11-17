@@ -47,6 +47,27 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+// Get a single user by email
+router.post("/find-by-email", async (req, res) => {
+    const { email } = req.body
+    
+    try {
+        // Find the user by email
+        const filter = { email };
+        const user = await User.find(filter);
+
+        // Handle not found case
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Success
+        res.json(user);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // Update user
 router.patch("/:id_user", async (req, res) => {
     const { id_user } = req.params
