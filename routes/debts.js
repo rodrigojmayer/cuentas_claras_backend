@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import Debt from "../models/Debt.js";
 import Payment from "../models/Payment.js";
 import Alert from "../models/Alert.js";
+import User from "../models/User.js";
 
 const router = express.Router();
 
@@ -206,6 +207,36 @@ router.delete("/:id_debt", async (req, res) => {
     } catch (err) {
         console.error("Error deleting debt: ", err);
         res.status(500).json({ error: err.message });
+    }
+});
+
+// create debt by debtor email
+router.post("/create-by-debtor-email", async (req, res) => {
+    let { id_user_creditor, id_user_debtor, email_debtor, detail, amount, currency, date_due } = req.body
+    try {
+        // Find the debtor
+        if(!id_user_debtor){
+            let debtorUser = null;
+            debtorUser = await User.findOne({ email: email_debtor });
+            if (!debtorUser) {
+                debtorUser = await User.create({ email: email_debtor })
+            }
+            id_user_debtor = debtorUser._id
+        }
+        const bodyDebt = {
+            id_user_creditor: id_user_creditor,
+            id_user_debtor: id_user_debtor,
+            detail: detail,
+            amount: amount,
+            date_due: date_due,
+            currency: currency,
+        }
+        const debt = new Debt(bodyDebt);
+        await debt.save();
+        res.status(201).json(debt)
+    } catch (err) {
+        console.error("🔥 ERROR:", err);
+        res.status(400).json({ error: err.message });
     }
 });
 
