@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import Payment from "../models/Payment.js";
+import Debt from "../models/Debt.js";
 
 const router = express.Router();
 
@@ -9,7 +10,13 @@ router.post("/", async (req, res) => {
     try {
         const payment = new Payment(req.body);
         await payment.save();
-        res.status(201).json(payment);
+        const debt = await Debt.findOneAndUpdate(
+                    { _id: payment.id_debt },
+                    { $inc: { amount: -payment.amount } },  //  subtract payment.amount 
+                    { new: true, runValidators: true }
+                )
+        // res.status(201).json(payment);
+        res.json({ payment, debt });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
