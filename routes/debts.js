@@ -212,7 +212,7 @@ router.delete("/:id_debt", async (req, res) => {
 
 // create debt by debtor email
 router.post("/create-by-debtor-email", async (req, res) => {
-    let { id_user_creditor, id_user_debtor, email_debtor, detail, initial_amount, amount, currency, date_due } = req.body
+    let { id_user_creditor, id_user_debtor, email_debtor, detail, amount, currency, date_due } = req.body
     try {
         // Find the debtor
         if(!id_user_debtor){
@@ -227,7 +227,7 @@ router.post("/create-by-debtor-email", async (req, res) => {
             id_user_creditor: id_user_creditor,
             id_user_debtor: id_user_debtor,
             detail: detail,
-            initial_amount: initial_amount,
+            initial_amount: amount,
             amount: amount,
             date_due: date_due,
             currency: currency,

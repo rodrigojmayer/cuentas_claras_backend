@@ -5,7 +5,7 @@ const debtSchema = new mongoose.Schema({
     id_user_debtor: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     date_debt: { type: Date, default: Date.now },
     detail: String,
-    initial_amount: { type: Number, required: false, min: 0 },
+    initial_amount: { type: Number, required: true, min: 0 },
     amount: { type: Number, required: true, min: 0 },
     dolar_google: Number,
     status: { type: String, enum: ["open", "closed", "overdue"], default: "open" },
