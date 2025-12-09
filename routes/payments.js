@@ -10,13 +10,22 @@ router.post("/", async (req, res) => {
     try {
         const payment = new Payment(req.body);
         await payment.save();
-        const debt = await Debt.findOneAndUpdate(
+        const debt = await Debt.findOne({ _id: payment.id_debt });
+
+        const newAmount = debt.amount - payment.amount;
+        const newAlerted = newAmount > 0 ? debt.alerted : false;
+
+        const updatedDebt = await Debt.findOneAndUpdate(
                     { _id: payment.id_debt },
-                    { $inc: { amount: -payment.amount } },  //  subtract payment.amount 
+                    { 
+                        $inc: { amount: -payment.amount },
+                        $set: {alerted: newAlerted }
+                    },  //  $inc subtract payment.amount
+                        // $set to update the alerted field  
                     { new: true, runValidators: true }
                 )
         // res.status(201).json(payment);
-        res.json({ payment, debt });
+        res.json({ payment, updatedDebt });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
