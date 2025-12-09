@@ -11,7 +11,8 @@ const router = express.Router();
 router.post("/", async (req, res) => {
     const { date_due } = req.body;
     req.body.alert_enabled = date_due ? true : false;
-    // req.body.alert_enabled = date_due< New date(now) && true;
+    const now = new Date();
+    req.body.alerted = new Date(date_due) <= now ? true : false;
     try {
         const debt = new Debt(req.body);
         await debt.save();
@@ -147,6 +148,8 @@ router.patch("/:id_debt", async (req, res) => {
         }
         const updateData = { id_user_creditor, id_user_debtor, date_debt, detail, initial_amount, amount, dolar_google, status, date_due, alert_enabled, alerted, currency, enabled, deleted }
         updateData.alert_enabled = date_due ? true : false;
+        const now = new Date();
+        updateData.alerted = new Date(date_due) <= now ? true : false;
         // Find the debt by ID
         const debt = await Debt.findOneAndUpdate(
             { _id: id_debt },
@@ -226,6 +229,7 @@ router.post("/create-by-debtor-email", async (req, res) => {
             }
             id_user_debtor = debtorUser._id
         }
+        const now = new Date();
         const bodyDebt = {
             id_user_creditor: id_user_creditor,
             id_user_debtor: id_user_debtor,
@@ -233,7 +237,8 @@ router.post("/create-by-debtor-email", async (req, res) => {
             initial_amount: amount,
             amount: amount,
             date_due: date_due,
-            alert_enabled : date_due ? true : false,
+            alert_enabled: date_due ? true : false,
+            alerted: new Date(date_due) <= now ? true : false,
             currency: currency,
         }
         const debt = new Debt(bodyDebt);
