@@ -1,20 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
-import User from "../models/User.js";
-import Debt from "../models/Debt.js";
+import User from "../../models/User.js";
+import Debt from "../../models/Debt.js";
 
 const router = express.Router();
 
-// Create a user
-router.post("/", async (req, res) => {
-    try {
-        const user = new User(req.body);
-        await user.save();
-        res.status(201).json(user);
-    } catch (err) {
-        res.status(400).json({ error: err.message });
-    }
-});
 
 // Get all users
 router.get("/", async (req, res) => {
@@ -34,27 +24,6 @@ router.get("/:id", async (req, res) => {
 
         // Find the user by ID
         const user = await User.findById(id);
-
-        // Handle not found case
-        if (!user) {
-            return res.status(404).json({ error: "User not found" });
-        }
-
-        // Success
-        res.json(user);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-});
-
-// Get a single user by email
-router.post("/find-by-email", async (req, res) => {
-    const { email } = req.body
-    
-    try {
-        // Find the user by email
-        const filter = { email };
-        const user = await User.findOne(filter);
 
         // Handle not found case
         if (!user) {

@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import Alert from "../models/Alert.js";
+import Alert from "../../models/Alert.js";
 
 const router = express.Router();
 

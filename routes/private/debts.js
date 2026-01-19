@@ -1,9 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
-import Debt from "../models/Debt.js";
-import Payment from "../models/Payment.js";
-import Alert from "../models/Alert.js";
-import User from "../models/User.js";
+import Debt from "../../models/Debt.js";
+import Payment from "../../models/Payment.js";
+import Alert from "../../models/Alert.js";
+import User from "../../models/User.js";
 
 const router = express.Router();
 

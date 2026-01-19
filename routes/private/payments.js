@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
-import Payment from "../models/Payment.js";
-import Debt from "../models/Debt.js";
+import Payment from "../../models/Payment.js";
+import Debt from "../../models/Debt.js";
 
 const router = express.Router();
 
