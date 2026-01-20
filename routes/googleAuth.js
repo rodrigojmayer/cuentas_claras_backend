@@ -3,8 +3,6 @@ import User from "../models/User.js";
 
 const googleAuth = async (req, res) => {
   const { email, name } = req.body;
-  console.log("--------email: ",email);
-  console.log("--------name: ",name);
 
   if (!email) {
     return res.status(400).json({ error: "Email requerido" });
@@ -30,7 +28,6 @@ const googleAuth = async (req, res) => {
     { expiresIn: "7d" }
   );
   
-  console.log("------------token: ",token);
 
   return res.json({
     user: {
