@@ -7,10 +7,9 @@ import userAuth from "./middlewares/userAuth.js";
 import systemAuth from "./middlewares/systemAuth.js";
 
 import googleAuth from "./routes/googleAuth.js";
-import publicUsers from "./routes/public/users.js";
-import systemUsers from "./routes/system/users.js";
 
 
+import privateUsers from "./routes/private/users.js";
 import debtRoutes from "./routes/private/debts.js";
 import alertRoutes from "./routes/private/alerts.js";
 import paymentRoutes from "./routes/private/payments.js";
@@ -32,12 +31,11 @@ app.use(express.json());
 
 app.use("/api/auth/google", googleAuth);
 
-app.use("/api/public/users", publicUsers);
+// app.use("/api/public/users", publicUsers);
 
-// 🤖 Sistema
-app.use("/api/system/users", systemAuth, systemUsers);
 
 // 🔐 Privado
+app.use("/api/private/users", userAuth, privateUsers);
 app.use("/api/private/debts", userAuth, debtRoutes);
 app.use("/api/private/alerts", userAuth, alertRoutes);
 app.use("/api/private/payments", userAuth, paymentRoutes);
